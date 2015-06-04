@@ -1,0 +1,119 @@
+<?php
+
+function imagecircleslider_views_api() {
+  return array(
+    'api' => '3.0',
+    'path' => drupal_get_path('module', 'imagecircleslider'),
+  );
+}
+
+/*Implement help hook */
+
+function imagecircleslider_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#tinycircleslider':
+      return '<p>Check the README.txt to sort things out';
+    break;
+  }
+}
+drupal_add_js((drupal_get_path('module', 'imagecircleslider') . '/js/jquery.tinycircleslider.js') , 'external');
+drupal_add_js((drupal_get_path('module',  'imagecircleslider') . '/js/slider.js') , 'external');
+drupal_add_css((drupal_get_path('module', 'imagecircleslider') . '/css/circleslider.css') ,array('type' => 'external')) ;
+
+function imagecircleslider_library() {
+  $libraries = array();
+  $libraries['imagecircleslider'] = array(
+    'title' => 'Image CircleSlider',
+    'verison' => '1.0',
+    // 'js' => array(
+    //   drupal_get_path('module', 'imagecircleslider') . '/js/slider.js' => array(),
+    // ),
+    // 'js' => array(
+    //   drupal_get_path('module', 'imagecircleslider') . '/js/jquery.tinycircleslider.js' => array(),
+    // ),
+    // 'css' => array(
+    //   drupal_get_path('module', 'imagecircleslider') . '/css/circleslider.css' => array(
+    //     'type' => 'file',
+    //     'media' => 'all',
+    //   ),
+    //   ),
+  );
+  return $libraries;
+}
+
+/* 
+  Implement hook_field_formatter_info()
+*/
+
+function imagecircleslider_field_formatter_info(){
+  return array(
+    'imagecircleslider_formatter' => array(
+      'label' =>t('Image CircleSlider'),
+      'field types' => array('image'),
+    ),
+  );
+}
+
+function imagecircleslider_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  $img_path = array();
+  foreach ($items as $key => $val) {
+    $uri=$val['uri'];
+    $img_path[$key]=file_create_url($uri);
+  }
+  $element = array(
+    '#theme' => 'imagecircleslider_format',
+    '#item' => $items,
+  );
+
+ $element['#attached']['js'][] = drupal_get_path('module', 'imagecircleslider') . '/js/jquery.tinycircleslider.js';
+ $element['#attached']['js'][] = drupal_get_path('module',  'imagecircleslider') . '/js/slider.js';
+ $element['#attached']['js'][] = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js';
+ $element['#attached']['css'][] = drupal_get_path('module', 'imagecircleslider') . '/css/circleslider.css';
+ //  $element = theme('tinycircleslider', array('items' => $img_path));
+  return $element;
+}
+
+
+function imagecircleslider_theme(){
+  return array(
+    'imagecircleslider' => array(
+      'variables' =>array('items' => NULL),
+      'template' => 'imagecircleslider-field',
+    ),
+    'imagecircleslider_format' => array(
+      'variables' => array('item' => NULL),
+    ),
+  );
+}
+
+function theme_imagecircleslider_format($variables) {
+  $items = $variables['item'];
+  $images = array();
+  foreach ($items as $item) {
+  $image = array(
+    'path' => $item['uri'],
+  );
+
+  if (array_key_exists('alt', $item)) {
+    $image['alt'] = $item['alt'];
+  }
+
+  if (isset($item['attributes'])) {
+    $image['attributes'] = $item['attributes'];
+  }
+
+  if (isset($item['width']) && isset($item['height'])) {
+    $image['width'] = $item['width'];
+    $image['height'] = $item['height'];
+  }
+
+  // Do not output an empty 'title' attribute.
+  if (isset($item['title']) && drupal_strlen($item['title']) > 0) {
+    $image['title'] = $item['title'];
+  }
+    $images[] = theme('image', $image);
+  }
+  $output = theme('imagecircleslider', array('items' => $images));
+  return $output;
+}

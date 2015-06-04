@@ -1,0 +1,8 @@
+name = Image CircleSlider
+description = Provides the user the flexibility to create a circle slider for their images
+core = 7.x
+dependencies[]= views
+
+files[] = imagecircleslider.module
+files[] = imagecircleslider.views.inc
+files[] = views_plugin_style_imagecircleslider.inc 
