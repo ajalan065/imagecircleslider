@@ -25,18 +25,6 @@ function imagecircleslider_library() {
   $libraries['imagecircleslider'] = array(
     'title' => 'Image CircleSlider',
     'verison' => '1.0',
-    // 'js' => array(
-    //   drupal_get_path('module', 'imagecircleslider') . '/js/slider.js' => array(),
-    // ),
-    // 'js' => array(
-    //   drupal_get_path('module', 'imagecircleslider') . '/js/jquery.tinycircleslider.js' => array(),
-    // ),
-    // 'css' => array(
-    //   drupal_get_path('module', 'imagecircleslider') . '/css/circleslider.css' => array(
-    //     'type' => 'file',
-    //     'media' => 'all',
-    //   ),
-    //   ),
   );
   return $libraries;
 }

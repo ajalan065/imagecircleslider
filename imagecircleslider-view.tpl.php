@@ -12,27 +12,24 @@
  */
 ?>
 <div id="wrapper">
-            <section class="block">
-                <div id="circleslider3">
-                    <div class="viewport">
+  <section class="block">
+    <div id="circleslider3">
+      <div class="viewport">
 
   <?php if (!empty($title)) : ?>
-    <h3><?php print $title; ?></h3>
+  <h3><?php print $title; ?></h3>
   <?php endif; ?>
-
-
   <ul class="overview">
   <?php foreach ($rows as $id => $row): 
 	?>
-    <li><?php print $row;?></li>
-          <?php endforeach; 
-    ?>
-</ul>
-</div>
- 					<div class="dot"></div>
-                    <div class="overlay"></div>
-                    <div class="thumb"></div>
-                    </section>
-                    </div>
+  <li><?php print $row;?></li>
+  <?php endforeach;?>
+  </ul>
      </div>
+ 	<div class="dot"></div>
+  <div class="overlay"></div>
+  <div class="thumb"></div>
+  </section>
+  </div>
+</div>
 
